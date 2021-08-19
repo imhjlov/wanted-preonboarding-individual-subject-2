@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@ant-design/icons": "^4.6.3",
     "antd": "^4.16.8",
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2",
