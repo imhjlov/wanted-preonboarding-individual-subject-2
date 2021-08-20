@@ -1,7 +1,9 @@
 import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
+import moment from "moment";
 import { Itodo } from "components/todo/TodoService";
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
+import { TODAY } from "components/Utils/constans";
 
 const Remove = styled.div`
   display: flex;
@@ -54,6 +56,19 @@ const Text = styled.div<{ done: boolean }>`
     `}
 `;
 
+const Date = styled.div<{ done: boolean }>`
+  text-align: right;
+  margin-right: 20px;
+  font-size: 16px;
+  color: #119955;
+  ${(props) =>
+    props.done &&
+    css`
+      color: #ced4da;
+      text-decoration: line-through;
+    `}
+`;
+
 interface TodoItemProps {
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
@@ -62,6 +77,16 @@ interface TodoItemProps {
 
 const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
   const done = todo.done;
+
+  const setDday = () => {
+    const dday = moment(todo.completeDate).diff(TODAY, "day");
+    if (dday === 0) {
+      return "오늘";
+    }
+    const remainingDay = dday * -1;
+    return remainingDay > 0 ? `D+${remainingDay}` : `D ${remainingDay}`;
+  };
+
   const handleToggle = () => {
     toggleTodo(todo.id);
   };
@@ -70,12 +95,17 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
     removeTodo(todo.id);
   };
 
+  useEffect(() => {
+    setDday();
+  }, []);
+
   return (
     <TodoItemBlock>
       <CheckCircle done={done} onClick={handleToggle}>
         {done && <CheckOutlined />}
       </CheckCircle>
       <Text done={done}>{todo.text}</Text>
+      <Date done={done}>{setDday()}</Date>
       <Remove onClick={handleRemove}>
         <DeleteOutlined />
       </Remove>

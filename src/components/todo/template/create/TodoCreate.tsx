@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Itodo } from "components/todo/TodoService";
+import DateSelect from "./DateSelect";
+import moment from "moment";
 
 const CircleButton = styled.button<{ open: boolean }>`
   background: #33bb77;
@@ -38,7 +40,7 @@ const InsertForm = styled.form`
 const Input = styled.input`
   padding: 12px;
   border: 1px solid #dddddd;
-  width: 100%;
+  width: 80%;
   outline: none;
   font-size: 21px;
   box-sizing: border-box;
@@ -58,17 +60,22 @@ interface TodoCreateProps {
 const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  const [completeDate, setDate] = useState(moment().startOf("day").format("L"));
 
   const handleToggle = () => setOpen(!open);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
+  const handleSetDate = (selectDate: string) => {
+    setDate(selectDate);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(completeDate);
     e.preventDefault(); // 새로고침 방지
-
     createTodo({
       id: nextId,
       text: value,
       done: false,
+      completeDate: completeDate,
     });
     incrementNextId(); // nextId 하나 증가
 
@@ -80,6 +87,7 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
     <>
       <InsertFormPositioner>
         <InsertForm onSubmit={handleSubmit}>
+          <DateSelect handleSetDate={handleSetDate} />
           <Input
             autoFocus
             placeholder="What's need to be done?"
