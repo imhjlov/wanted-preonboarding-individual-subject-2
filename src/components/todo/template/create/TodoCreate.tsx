@@ -4,6 +4,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { Itodo } from "components/todo/TodoService";
 import DateSelect from "./DateSelect";
 import moment from "moment";
+import ModalPopup from "components/common/Modal/ModalPopup";
 
 const CircleButton = styled.button<{ open: boolean }>`
   background: #33bb77;
@@ -62,15 +63,19 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
   const [value, setValue] = useState("");
   const [completeDate, setDate] = useState(moment().startOf("day").format("L"));
 
-  const handleToggle = () => setOpen(!open);
+  const handleToggle = () => {
+    if (value === "") setOpen(!open);
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
   const handleSetDate = (selectDate: string) => {
     setDate(selectDate);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(completeDate);
     e.preventDefault(); // 새로고침 방지
+    if (value === "") {
+      return;
+    }
     createTodo({
       id: nextId,
       text: value,
@@ -78,9 +83,8 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
       completeDate: completeDate,
     });
     incrementNextId(); // nextId 하나 증가
-
     setValue(""); // input 초기화
-    setOpen(false); // open 닫기
+    //setOpen(false);
   };
 
   return (
@@ -100,6 +104,7 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
           </CircleButton>
         </InsertForm>
       </InsertFormPositioner>
+      <ModalPopup open={open} handleToggle={handleToggle} />
     </>
   );
 };
