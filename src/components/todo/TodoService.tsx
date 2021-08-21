@@ -46,13 +46,11 @@ export const useTodo = () => {
   };
 
   const loadData = () => {
-    let data = localStorage.getItem("todos");
-    if (data === undefined) data = "";
+    let data = localStorage.getItem("todos") || "[]";
     initialTodos = JSON.parse(data!);
     if (initialTodos && initialTodos.length >= 1) {
       nextIdState = initialTodos[initialTodos.length - 1].id;
       incrementNextId();
-      console.log(nextIdState);
     }
     setTodoState(initialTodos);
   };
