@@ -1,9 +1,10 @@
 import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { Itodo } from "components/todo/TodoService";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { TODAY } from "components/Utils/constans";
+import ModalPopup from "components/common/Modal/ModalPopup";
 
 const Remove = styled.div`
   display: flex;
@@ -11,6 +12,10 @@ const Remove = styled.div`
   justify-content: center;
   color: #119955;
   font-size: 16px;
+
+  &:hover {
+    color: red;
+  }
 `;
 
 const TodoItemBlock = styled.div`
@@ -76,6 +81,7 @@ interface TodoItemProps {
 }
 
 const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
+  const [open, setOpen] = useState(false);
   const done = todo.done;
 
   const setDday = () => {
@@ -87,12 +93,22 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
     return remainingDay > 0 ? `D+${remainingDay}` : `D ${remainingDay}`;
   };
 
-  const handleToggle = () => {
+  const handleComplete = () => {
     toggleTodo(todo.id);
   };
 
   const handleRemove = () => {
     removeTodo(todo.id);
+    setOpen(false);
+  };
+
+  const handleToggle = (status: string) => {
+    if (!done) {
+      if (status === "delete") {
+        handleRemove();
+      }
+      setOpen(!open);
+    }
   };
 
   useEffect(() => {
@@ -101,14 +117,15 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
 
   return (
     <TodoItemBlock>
-      <CheckCircle done={done} onClick={handleToggle}>
+      <CheckCircle done={done} onClick={handleComplete}>
         {done && <CheckOutlined />}
       </CheckCircle>
       <Text done={done}>{todo.text}</Text>
       <Date done={done}>{setDday()}</Date>
-      <Remove onClick={handleRemove}>
+      <Remove onClick={() => handleToggle("")}>
         <DeleteOutlined />
       </Remove>
+      <ModalPopup open={open} handleToggle={(status) => handleToggle(status)} type="delete" />
     </TodoItemBlock>
   );
 };

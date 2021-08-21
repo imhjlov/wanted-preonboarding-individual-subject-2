@@ -63,7 +63,7 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
   const [value, setValue] = useState("");
   const [completeDate, setDate] = useState(moment().startOf("day").format("L"));
 
-  const handleToggle = () => {
+  const handleToggle = (status: string) => {
     if (value === "") setOpen(!open);
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
@@ -84,7 +84,7 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
     });
     incrementNextId(); // nextId 하나 증가
     setValue(""); // input 초기화
-    //setOpen(false);
+    setOpen(false);
   };
 
   return (
@@ -99,12 +99,12 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
             value={value}
           />
 
-          <CircleButton onClick={handleToggle} open={open}>
+          <CircleButton onClick={() => handleToggle("")} open={open}>
             <PlusCircleOutlined />
           </CircleButton>
         </InsertForm>
       </InsertFormPositioner>
-      <ModalPopup open={open} handleToggle={handleToggle} />
+      <ModalPopup open={open} handleToggle={() => handleToggle("")} type="confirm" />
     </>
   );
 };
