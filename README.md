@@ -3,7 +3,7 @@
 
 </br>
 
-## 설치 및 시작
+## ✨ 설치 및 시작
 ```
 git clone https://github.com/imhjlov/wanted-preonboarding-individual-subject-2.git
 npm install
