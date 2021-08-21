@@ -22,6 +22,11 @@ const CircleButton = styled.button<{ open: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    background: #119955;
+    cursor: pointer;
+  }
 `;
 
 const InsertFormPositioner = styled.div`
