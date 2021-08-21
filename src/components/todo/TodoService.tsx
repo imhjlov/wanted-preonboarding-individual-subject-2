@@ -9,10 +9,9 @@ export type Itodo = {
 };
 
 let initialTodos: Itodo[] = [];
-
+let nextIdState = 0;
 export const useTodo = () => {
   const [todoState, setTodoState] = useState(initialTodos);
-  var nextIdState = 0;
 
   useEffect(() => {
     loadData();
@@ -38,7 +37,7 @@ export const useTodo = () => {
   };
 
   const createTodo = (todo: Itodo) => {
-    const nextId = todoState.length + 1;
+    const nextId = nextIdState + 1;
     setTodoState((prevState) =>
       prevState.concat({
         ...todo,
@@ -52,7 +51,9 @@ export const useTodo = () => {
     if (data === undefined) data = "";
     initialTodos = JSON.parse(data!);
     if (initialTodos && initialTodos.length >= 1) {
+      nextIdState = initialTodos[initialTodos.length - 1].id;
       incrementNextId();
+      console.log(nextIdState);
     }
     setTodoState(initialTodos);
   };
