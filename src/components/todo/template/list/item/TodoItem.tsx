@@ -108,6 +108,8 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
         handleRemove();
       }
       setOpen(!open);
+    } else {
+      handleRemove();
     }
   };
 
