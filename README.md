@@ -1,5 +1,5 @@
 # [개인과제 #2] 솔라커넥트 - TodoList
-## 🔗 [배포링크](https://6120a2fe79cd2800070706c2--eager-volhard-d0c0f4.netlify.app/)
+## 🔗 [배포링크](https://eager-volhard-d0c0f4.netlify.app)
 
 </br>
 
