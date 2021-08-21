@@ -1,10 +1,68 @@
+import React, { useEffect, useState } from "react";
+import styled, { css } from "styled-components";
 import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { Itodo } from "components/todo/TodoService";
-import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
 import { TODAY } from "components/Utils/constans";
 import ModalPopup from "components/common/Modal/ModalPopup";
+
+interface TodoItemProps {
+  toggleTodo: (id: number) => void;
+  removeTodo: (id: number) => void;
+  todo: Itodo;
+}
+
+const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
+  const [open, setOpen] = useState(false);
+  const done = todo.done;
+
+  const setDday = () => {
+    const dday = moment(todo.completeDate).diff(TODAY, "day");
+    if (dday === 0) {
+      return "오늘";
+    }
+    const remainingDay = dday * -1;
+    return remainingDay > 0 ? `D+${remainingDay}` : `D ${remainingDay}`;
+  };
+
+  const handleComplete = () => {
+    toggleTodo(todo.id);
+  };
+
+  const handleRemove = () => {
+    removeTodo(todo.id);
+    setOpen(false);
+  };
+
+  const handleToggle = (status: string) => {
+    if (!done) {
+      if (status === "delete") {
+        handleRemove();
+      }
+      setOpen(!open);
+    } else {
+      handleRemove();
+    }
+  };
+
+  useEffect(() => {
+    setDday();
+  }, []);
+
+  return (
+    <TodoItemBlock>
+      <CheckButton done={done} onClick={handleComplete}>
+        {done && <CheckOutlined />}
+      </CheckButton>
+      <Text done={done}>{todo.text}</Text>
+      <Date done={done}>{setDday()}</Date>
+      <RemoveButton onClick={() => handleToggle("")}>
+        <DeleteOutlined />
+      </RemoveButton>
+      <ModalPopup open={open} handleToggle={(status) => handleToggle(status)} type="delete" />
+    </TodoItemBlock>
+  );
+};
 
 const RemoveButton = styled.div`
   display: flex;
@@ -80,63 +138,5 @@ const Date = styled.div<{ done: boolean }>`
       text-decoration: line-through;
     `}
 `;
-
-interface TodoItemProps {
-  toggleTodo: (id: number) => void;
-  removeTodo: (id: number) => void;
-  todo: Itodo;
-}
-
-const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
-  const [open, setOpen] = useState(false);
-  const done = todo.done;
-
-  const setDday = () => {
-    const dday = moment(todo.completeDate).diff(TODAY, "day");
-    if (dday === 0) {
-      return "오늘";
-    }
-    const remainingDay = dday * -1;
-    return remainingDay > 0 ? `D+${remainingDay}` : `D ${remainingDay}`;
-  };
-
-  const handleComplete = () => {
-    toggleTodo(todo.id);
-  };
-
-  const handleRemove = () => {
-    removeTodo(todo.id);
-    setOpen(false);
-  };
-
-  const handleToggle = (status: string) => {
-    if (!done) {
-      if (status === "delete") {
-        handleRemove();
-      }
-      setOpen(!open);
-    } else {
-      handleRemove();
-    }
-  };
-
-  useEffect(() => {
-    setDday();
-  }, []);
-
-  return (
-    <TodoItemBlock>
-      <CheckButton done={done} onClick={handleComplete}>
-        {done && <CheckOutlined />}
-      </CheckButton>
-      <Text done={done}>{todo.text}</Text>
-      <Date done={done}>{setDday()}</Date>
-      <RemoveButton onClick={() => handleToggle("")}>
-        <DeleteOutlined />
-      </RemoveButton>
-      <ModalPopup open={open} handleToggle={(status) => handleToggle(status)} type="delete" />
-    </TodoItemBlock>
-  );
-};
 
 export default React.memo(TodoItem);

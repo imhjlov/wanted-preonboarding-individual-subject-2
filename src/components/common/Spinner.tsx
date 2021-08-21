@@ -17,11 +17,6 @@ interface IWrapperProp {
   readonly ["data-mask"]: boolean;
 }
 
-const StyledSpinnerWrapper = styled(Row)<IWrapperProp>`
-  background-color: ${(styleProps) =>
-    styleProps["data-mask"] ? "rgba(0, 0, 0, 0.1)" : "transparent"};
-`;
-
 function Spinner(props: ISpinnerProps): ReactElement {
   const { tip, size, delay, style, mask = false } = props;
 
@@ -47,4 +42,8 @@ Spinner.defaultProps = {
   mask: false,
 };
 
+const StyledSpinnerWrapper = styled(Row)<IWrapperProp>`
+  background-color: ${(styleProps) =>
+    styleProps["data-mask"] ? "rgba(0, 0, 0, 0.1)" : "transparent"};
+`;
 export default Spinner;

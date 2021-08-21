@@ -2,6 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import moment from "moment";
 
+const TodoHead = () => {
+  const dayString = moment().format("dddd");
+  const dateString = moment().format("LL");
+
+  return (
+    <TodoHeadBlock>
+      <DayText>{dayString}</DayText>
+      <DateText>{dateString}</DateText>
+    </TodoHeadBlock>
+  );
+};
+
 const TodoHeadBlock = styled.div`
   display: flex;
   justify-content: center;
@@ -21,17 +33,5 @@ const DayText = styled.div`
   color: #119955;
   padding-top: 5px;
 `;
-
-const TodoHead = () => {
-  const dayString = moment().format("dddd");
-  const dateString = moment().format("LL");
-
-  return (
-    <TodoHeadBlock>
-      <DayText>{dayString}</DayText>
-      <DateText>{dateString}</DateText>
-    </TodoHeadBlock>
-  );
-};
 
 export default React.memo(TodoHead);
