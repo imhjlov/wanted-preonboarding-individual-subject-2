@@ -14,7 +14,8 @@ const Remove = styled.div`
   font-size: 16px;
 
   &:hover {
-    color: red;
+    color: #33bb77;
+    cursor: pointer;
   }
 `;
 
@@ -41,11 +42,17 @@ const CheckCircle = styled.div<{ done: boolean }>`
   justify-content: center;
   margin-right: 20px;
   cursor: pointer;
+  &:hover {
+    border: 1px solid #119955;
+  }
   ${(props) =>
     props.done &&
     css`
       border: 1px solid #dddddd;
       color: #dddddd;
+      &:hover {
+        border: 1px solid #aaaaaa;
+      }
     `}
 `;
 
