@@ -6,7 +6,7 @@ import DateSelect from "./DateSelect";
 import moment from "moment";
 import ModalPopup from "components/common/Modal/ModalPopup";
 
-const CircleButton = styled.button<{ open: boolean }>`
+const SubmitButton = styled.button<{ open: boolean }>`
   background: #33bb77;
   width: 50px;
   height: 50px;
@@ -77,7 +77,7 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // 새로고침 방지
+    e.preventDefault();
     if (value === "") {
       return;
     }
@@ -87,8 +87,8 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
       done: false,
       completeDate: completeDate,
     });
-    incrementNextId(); // nextId 하나 증가
-    setValue(""); // input 초기화
+    incrementNextId();
+    setValue("");
     setOpen(false);
   };
 
@@ -104,9 +104,9 @@ const TodoCreate = ({ nextId, createTodo, incrementNextId }: TodoCreateProps) =>
             value={value}
           />
 
-          <CircleButton onClick={() => handleToggle("")} open={open}>
+          <SubmitButton onClick={() => handleToggle("")} open={open}>
             <PlusCircleOutlined />
-          </CircleButton>
+          </SubmitButton>
         </InsertForm>
       </InsertFormPositioner>
       <ModalPopup open={open} handleToggle={() => handleToggle("")} type="confirm" />

@@ -4,7 +4,6 @@ import Spinner from "./components/common/Spinner";
 import TodoContainer from "./components/todo/TodoContainer";
 
 function App() {
-  //@TODO login
   let isLogged = true;
 
   const RenderLayout = (

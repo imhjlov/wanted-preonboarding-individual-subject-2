@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import { TODAY } from "components/Utils/constans";
 import ModalPopup from "components/common/Modal/ModalPopup";
 
-const Remove = styled.div`
+const RemoveButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,13 +25,13 @@ const TodoItemBlock = styled.div`
   padding-top: 12px;
   padding-bottom: 12px;
   &:hover {
-    ${Remove} {
+    ${RemoveButton} {
       display: initial;
     }
   }
 `;
 
-const CheckCircle = styled.div<{ done: boolean }>`
+const CheckButton = styled.div<{ done: boolean }>`
   width: 20px;
   height: 20px;
   border-radius: 16px;
@@ -126,14 +126,14 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
 
   return (
     <TodoItemBlock>
-      <CheckCircle done={done} onClick={handleComplete}>
+      <CheckButton done={done} onClick={handleComplete}>
         {done && <CheckOutlined />}
-      </CheckCircle>
+      </CheckButton>
       <Text done={done}>{todo.text}</Text>
       <Date done={done}>{setDday()}</Date>
-      <Remove onClick={() => handleToggle("")}>
+      <RemoveButton onClick={() => handleToggle("")}>
         <DeleteOutlined />
-      </Remove>
+      </RemoveButton>
       <ModalPopup open={open} handleToggle={(status) => handleToggle(status)} type="delete" />
     </TodoItemBlock>
   );
